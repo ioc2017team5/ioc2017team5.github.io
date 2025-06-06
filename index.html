@@ -8,15 +8,15 @@
             <!-- Block 1 -->
             <div v-if="containerState[0] === 'input'" class="video-select-container" id="selectContainer1">
                 <div class="video-type-block">
-                    <div class="video-type" id="videoTag" @click="changeVideoType(0, 'file')">File</div>
-                    <div class="video-type" id="TYTag" @click="changeVideoType(0, 'youtube')">Youtube</div>
+                    <div class="video-type" :class="{'video-type-selected': videoType[0] === 'file' }" id="videoTag" @click="changeVideoType(0, 'file')">File</div>
+                    <div class="video-type" :class="{'video-type-selected': videoType[0] === 'youtube' }" id="TYTag" @click="changeVideoType(0, 'youtube')">Youtube</div>
                 </div>
                 <div v-if="videoType[0] === 'file'" class="input-block">
                     <input type="file" @change="(event) => chooseVideo(event, 0)">
                 </div>
                 <div v-else class="input-block">
                     <input type="text"
-                        autocomplete="off"
+                        autocomplete="none"
                         v-model="youtubeURL[0]"
                     >
                     <button @click="confirmURL(0)">Confirm</button>
@@ -37,6 +37,8 @@
                         @dblclick="(event) => doubleClickHandler(event)"
                     >
                     </video>
+                    <div class="video-button play-button" @click="playVideo">Play</div>
+                    <div class="video-button pause-button" @click="pauseVideo">Pause</div>
                     <input type="range" class="video-bar" v-model="videoBarValue" min="0" max="100" @change="dragVideoTime"></input>
                     <div class="video-time">{{ videoTime }}</div>
                 </div>
@@ -44,21 +46,19 @@
             </div>
 
             <!-- Block 2 -->
-            <div>
-                <div v-if="containerState[1] === 'input'" class="video-select-container" id="selectContainer2">
-                    <div class="input-block">
-                        <input type="text" v-model="youtubeURL[1]">
-                        <button @click="confirmURL(1)">Confirm</button>
-                    </div>
+            <div v-if="containerState[1] === 'input'" class="video-select-container" id="selectContainer2">
+                <div class="input-block">
+                    <input type="text" v-model="youtubeURL[1]" autocomplete="none">
+                    <button @click="confirmURL(1)">Confirm</button>
                 </div>
-                <div v-else class="video-container">
-                    <div class="video-button back-button" @click="returnToInput(1)">Back</div>
-                    <div class="video-block" id="player2"></div>
-                </div>
+            </div>
+            <div v-else class="video-container">
+                <div class="video-button back-button" @click="returnToInput(1)">Back</div>
+                <div class="video-block" id="player2"></div>
             </div>
         </div>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="https://www.youtube.com/iframe_api"></script>
-        <script src="./vueEntry.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="./vueEntry.js" type="module"></script>
     </body>
 </html>

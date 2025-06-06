@@ -16,9 +16,23 @@ const app = Vue.createApp({
         const playerInstance = ref([null, null]);
 
         onMounted(() => {
-            // createIFrameAPI(1, 'SGVSvi1OxE8', 'player2');
+            loadIframeAPI();
+            // getHolodexAPI();
         });
 
+        const loadIframeAPI = () => {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+        const getHolodexAPI = () => {
+            const holodexAPI = 'https://holodex.net/live?key=49db2644-7902-4cc1-81bf-c9c5e763011a';
+            axios.get(holodexAPI).then((response) => {
+                const data = response.data;
+                console.log('data', data);
+            });
+        }
         const chooseVideo = (event, index) => {
             const file = event.target.files[0];
             const src = window.URL.createObjectURL(file);
@@ -27,7 +41,6 @@ const app = Vue.createApp({
             videoSource.value[index] = src;
         };
         const hoverVideo = (isHover) => {
-            // currentVideo.value = videoRef.value;
         };
         const updateDisplayTime = () => {
             // currentVideo.value = videoRef.value;
@@ -42,12 +55,20 @@ const app = Vue.createApp({
             if ((event.offsetX > (videoWidth / 2 - videoWidth / 6)) &&
                 (event.offsetX < (videoWidth / 2 + videoWidth / 6))
             ) {
-                videoRef.value.paused ? videoRef.value.play() : videoRef.value.pause();
+                if (videoRef.value.paused) {
+                    videoRef.value.play();
+                    playerInstance[1].playVideo();
+                    playerInstance[1].unmute();
+                } else {
+                    videoRef.value.pause();
+                    playerInstance[1].mute();
+                }
             }
         };
         const doubleClickHandler = (event) => {
             // currentVideo.value = videoRef.value;
             const videoWidth = videoRef.value.offsetWidth;
+            playerInstance[1].mute();
             if ((event.offsetX < videoWidth / 2 - videoWidth / 6)) {
                 rewindVideo()
             } else if ((event.offsetX > videoWidth / 2 + videoWidth / 6)) {
@@ -67,11 +88,11 @@ const app = Vue.createApp({
         };
         const rewindVideo = () => {
             console.log('rewind');
-            videoRef.value.currentTime -= 2;
+            videoRef.value.currentTime -= 3;
         };
         const forwardVideo = () => {
             console.log('forward');
-            videoRef.value.currentTime += 2;
+            videoRef.value.currentTime += 3;
         };
         const returnToInput = (index) => {
             videoRef.value = null;
@@ -127,6 +148,11 @@ const app = Vue.createApp({
         }
         const changeVideoType = (index, tabName) => {
             videoType.value[index] = tabName;
+        };
+
+        videoRef.value.onloadeddata = (event) => {
+            console.log('video Loaded!!!');
+            videoRef.value.volume = 0.5;
         };
 
         return {

@@ -11,6 +11,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px solid black;
 }
 .video-type-block {
     width: 350px;
@@ -25,6 +26,11 @@ body {
     border: 1px solid black;
     margin-right: 10px;
     text-align: center;
+    cursor: pointer;
+}
+.video-type-selected {
+    background-color: #aaaaaa;
+    color: white;
 }
 .input-block {
     width: 350px;
