@@ -57,7 +57,7 @@ const app = Vue.createApp({
             ) {
                 if (videoRef.value.paused) {
                     videoRef.value.play();
-                    videoRef.value.volume = 0.3;
+                    videoRef.value.volume = 0.2;
                     playerInstance[1].playVideo();
                     playerInstance[1].unMute();
                     playerInstance[1].setVolume(100);
@@ -91,10 +91,12 @@ const app = Vue.createApp({
         const rewindVideo = () => {
             console.log('rewind');
             videoRef.value.currentTime -= 3;
+            playerInstance[1].unMute();
         };
         const forwardVideo = () => {
             console.log('forward');
             videoRef.value.currentTime += 3;
+            playerInstance[1].unMute();
         };
         const returnToInput = (index) => {
             videoRef.value = null;
