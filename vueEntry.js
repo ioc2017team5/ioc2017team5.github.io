@@ -57,8 +57,10 @@ const app = Vue.createApp({
             ) {
                 if (videoRef.value.paused) {
                     videoRef.value.play();
+                    videoRef.value.volume = 0.3;
                     playerInstance[1].playVideo();
-                    playerInstance[1].unmute();
+                    playerInstance[1].unMute();
+                    playerInstance[1].setVolume(100);
                 } else {
                     videoRef.value.pause();
                     playerInstance[1].mute();
@@ -148,11 +150,6 @@ const app = Vue.createApp({
         }
         const changeVideoType = (index, tabName) => {
             videoType.value[index] = tabName;
-        };
-
-        videoRef.value.onloadeddata = (event) => {
-            console.log('video Loaded!!!');
-            videoRef.value.volume = 0.5;
         };
 
         return {
