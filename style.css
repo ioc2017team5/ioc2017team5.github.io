@@ -60,6 +60,7 @@ body {
 .video-block {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
     height: 98%;
     padding: 5px;
@@ -72,8 +73,8 @@ body {
 }
 .video-bar {
     position: absolute;
-    width: 400px;
-    left: 50%;
+    width: 300px;
+    left: 30%;
     bottom: 5px;
     transform: translateX(-50%);
 }
